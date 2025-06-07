@@ -8,3 +8,5 @@ from .market_share_fcn_agent import MarketShareFCNAgent
 from .ppo_agent import PPOAgent
 from .q_learning_agent import QLearningAgent
 from .test_agent import TestAgent
+from .deep_agent import DeepAgent
+
