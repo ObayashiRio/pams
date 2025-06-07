@@ -27,9 +27,10 @@ You can run it by the following command:
 
 .. code-block:: none
 
-   python3 path_to_folder/main.py path_to_folder/config.json [random_seed]
+   python3 path_to_folder/main.py --config path_to_folder/config.json --seed [random_seed]
 
-Here, random_seed must be number and it is an optional argument.
+Here, ``--config`` specifies the JSON setting file and ``--seed`` (number) is
+optional for reproducibility.
 
 (2) examples on google colab or jupyter notebook
 ------------
