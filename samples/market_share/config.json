@@ -14,7 +14,7 @@
 				"withOrderPlacement": true,
 				"withOrderExecution": true,
 				"withPrint": true,
-				"maxHifreqOrders": 1
+				"maxHighFrequencyOrders": 1
 			}
 		]
 	},
