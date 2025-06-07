@@ -4,6 +4,7 @@ from typing import Optional
 
 from pams.logs.market_step_loggers import MarketStepPrintLogger
 from pams.runners.sequential import SequentialRunner
+from pams.agents.deep_agent import DeepAgent
 
 
 def main() -> None:
@@ -23,6 +24,7 @@ def main() -> None:
         prng=random.Random(seed) if seed is not None else None,
         logger=MarketStepPrintLogger(),
     )
+    runner.class_register(cls=DeepAgent)
     runner.main()
 
 
