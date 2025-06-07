@@ -7,6 +7,5 @@ from .market_maker_agent import MarketMakerAgent
 from .market_share_fcn_agent import MarketShareFCNAgent
 from .ppo_agent import PPOAgent
 from .q_learning_agent import QLearningAgent
+from .risk_tolerance_agent import RiskToleranceAgent
 from .test_agent import TestAgent
-from .deep_agent import DeepAgent
-
