@@ -1,5 +1,6 @@
 from .arbitrage_agent import ArbitrageAgent
 from .base import Agent
+from .deep_agent import DeepAgent
 from .dqn_agent import DQNAgent
 from .fcn_agent import FCNAgent
 from .high_frequency_agent import HighFrequencyAgent

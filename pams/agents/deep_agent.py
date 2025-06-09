@@ -99,7 +99,6 @@ class SimpleLSTMNetwork:
     def backward(self, x: np.ndarray, y: int, cache: Any) -> None:
         """Backward and update weights for one sample."""
         (caches, h, c, norm, mu, var, pre, relu) = cache
-        probs = np.exp(pre * 0)  # dummy to ensure array creation
         # softmax
         ex = np.exp(
             np.dot(relu, self.W2) + self.b2 - np.max(np.dot(relu, self.W2) + self.b2)
@@ -149,7 +148,6 @@ class SimpleLSTMNetwork:
             )
             dh_next = dconcat[: self.hidden_size]
             dc_next = dc * f
-            dxi = dconcat[self.hidden_size :]
             dWf += np.outer(inp, df)
             dWi += np.outer(inp, di)
             dWo += np.outer(inp, do)
