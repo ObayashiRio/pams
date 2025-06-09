@@ -1,12 +1,14 @@
 import argparse
-import random
-from typing import Optional, List
-import matplotlib.pyplot as plt
 import json
+import random
+from typing import List
+from typing import Optional
 
+import matplotlib.pyplot as plt
+
+from pams.agents.deep_agent import DeepAgent
 from pams.logs.market_step_loggers import MarketStepPrintLogger
 from pams.runners.sequential import SequentialRunner
-from pams.agents.deep_agent import DeepAgent
 
 
 class PriceLogger(MarketStepPrintLogger):
@@ -14,9 +16,9 @@ class PriceLogger(MarketStepPrintLogger):
         super().__init__()
         self.prices: List[float] = []
 
-    def log_market_step(self, market) -> None:
-        super().log_market_step(market)
-        self.prices.append(market.get_market_price())
+    def process_market_step_end_log(self, log) -> None:
+        super().process_market_step_end_log(log)
+        self.prices.append(log.market.get_market_price())
 
 
 def plot_simulation_results(runner: SequentialRunner, prices: List[float]) -> None:
@@ -25,12 +27,12 @@ def plot_simulation_results(runner: SequentialRunner, prices: List[float]) -> No
 
     # Create figure with subplots
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
-    
+
     # Plot price history
-    ax1.plot(steps, prices, label='Market Price')
-    ax1.set_title('Market Price History')
-    ax1.set_xlabel('Step')
-    ax1.set_ylabel('Price')
+    ax1.plot(steps, prices, label="Market Price")
+    ax1.set_title("Market Price History")
+    ax1.set_xlabel("Step")
+    ax1.set_ylabel("Price")
     ax1.grid(True)
     ax1.legend()
 
@@ -38,16 +40,16 @@ def plot_simulation_results(runner: SequentialRunner, prices: List[float]) -> No
     for agent in runner.simulator.agents:
         if isinstance(agent, DeepAgent):
             positions = agent.get_position_history()
-            ax2.plot(steps, positions, label=f'Agent {agent.agent_id}')
-    
-    ax2.set_title('Agent Positions')
-    ax2.set_xlabel('Step')
-    ax2.set_ylabel('Position')
+            ax2.plot(steps, positions, label=f"Agent {agent.agent_id}")
+
+    ax2.set_title("Agent Positions")
+    ax2.set_xlabel("Step")
+    ax2.set_ylabel("Position")
     ax2.grid(True)
     ax2.legend()
 
     plt.tight_layout()
-    plt.savefig('simulation_results.png')
+    plt.savefig("simulation_results.png")
     plt.close()
 
 
@@ -71,7 +73,7 @@ def main() -> None:
     )
     runner.class_register(cls=DeepAgent)
     runner.main()
-    
+
     # Plot simulation results
     plot_simulation_results(runner, price_logger.prices)
 

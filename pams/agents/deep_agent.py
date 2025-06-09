@@ -10,14 +10,21 @@ dependencies.
 from __future__ import annotations
 
 import random
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
 import numpy as np
 
-from .base import Agent
 from ..logs.base import Logger
 from ..market import Market
-from ..order import LIMIT_ORDER, Cancel, Order
+from ..order import LIMIT_ORDER
+from ..order import Cancel
+from ..order import Order
+from .base import Agent
 
 
 def sigmoid(x: np.ndarray) -> np.ndarray:
@@ -33,7 +40,7 @@ def tanh(x: np.ndarray) -> np.ndarray:
 
 
 def dtanh(y: np.ndarray) -> np.ndarray:
-    return 1 - y ** 2
+    return 1 - y**2
 
 
 class SimpleLSTMNetwork:
@@ -94,7 +101,9 @@ class SimpleLSTMNetwork:
         (caches, h, c, norm, mu, var, pre, relu) = cache
         probs = np.exp(pre * 0)  # dummy to ensure array creation
         # softmax
-        ex = np.exp(np.dot(relu, self.W2) + self.b2 - np.max(np.dot(relu, self.W2) + self.b2))
+        ex = np.exp(
+            np.dot(relu, self.W2) + self.b2 - np.max(np.dot(relu, self.W2) + self.b2)
+        )
         probs = ex / ex.sum()
         dlogits = probs
         dlogits[y] -= 1
@@ -106,9 +115,13 @@ class SimpleLSTMNetwork:
         dW1 = np.outer(norm, dpre)
         db1 = dpre
         dnorm = np.dot(dpre, self.W1.T)
-        dvar = (-0.5) * np.sum(dnorm * (h[-1] - mu)) / (var ** 1.5)
+        dvar = (-0.5) * np.sum(dnorm * (h[-1] - mu)) / (var**1.5)
         dmu = -np.sum(dnorm) / np.sqrt(var) + dvar * (-2 * np.mean(h[-1] - mu))
-        dh = dnorm / np.sqrt(var) + dvar * 2 * (h[-1] - mu) / h[-1].size + dmu / h[-1].size
+        dh = (
+            dnorm / np.sqrt(var)
+            + dvar * 2 * (h[-1] - mu) / h[-1].size
+            + dmu / h[-1].size
+        )
 
         dh_next = dh
         dc_next = np.zeros(self.hidden_size)
@@ -199,6 +212,7 @@ class DeepAgent(Agent):
         self.net = SimpleLSTMNetwork()
         self.prices: List[float] = []
         self.mids: List[float] = []
+        self.position_history: List[int] = []
 
     def setup(
         self,
@@ -235,6 +249,8 @@ class DeepAgent(Agent):
     def submit_orders(self, markets: List[Market]) -> List[Union[Order, Cancel]]:
         orders: List[Union[Order, Cancel]] = []
         market = markets[0]
+        # record current position before taking actions
+        self.position_history.append(self.asset_volumes.get(self.market_id, 0))
         self._collect_data(market)
         if len(self.mids) <= self.sequence_length + self.prediction_horizon + 100:
             return orders
@@ -281,3 +297,7 @@ class DeepAgent(Agent):
                 )
             )
         return orders
+
+    def get_position_history(self) -> List[int]:
+        """Return historical positions recorded each step."""
+        return self.position_history
