@@ -49,8 +49,7 @@ def plot_simulation_results(runner: SequentialRunner, prices: List[float]) -> No
     ax2.legend()
 
     plt.tight_layout()
-    plt.savefig("simulation_results.png")
-    plt.close()
+    plt.show()
 
 
 def main() -> None:
