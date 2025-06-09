@@ -70,7 +70,6 @@ def main() -> None:
         prng=random.Random(seed) if seed is not None else None,
         logger=price_logger,
     )
-    runner.class_register(cls=DeepAgent)
     runner.main()
 
     # Plot simulation results
