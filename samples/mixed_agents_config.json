@@ -1,0 +1,106 @@
+{
+    "simulation": {
+        "markets": [
+            "Market"
+        ],
+        "agents": [
+            "FCNAgents",
+            "TestAgents",
+            "DeepAgents",
+            "MarketMakerAgents"
+        ],
+        "sessions": [
+            {
+                "sessionName": 0,
+                "iterationSteps": 100,
+                "withOrderPlacement": true,
+                "withOrderExecution": false,
+                "withPrint": true,
+                "highFrequencySubmitRate": 1.0
+            },
+            {
+                "sessionName": 1,
+                "iterationSteps": 1000,
+                "withOrderPlacement": true,
+                "withOrderExecution": true,
+                "withPrint": true
+            }
+        ]
+    },
+    "Market": {
+        "class": "Market",
+        "tickSize": 0.00001,
+        "marketPrice": 300.0,
+        "fundamentalPrice": 300.0,
+        "fundamentalVolatility": 0.05
+    },
+    "FCNAgents": {
+        "class": "FCNAgent",
+        "numAgents": 30,
+        "markets": [
+            "Market"
+        ],
+        "assetVolume": 50,
+        "cashAmount": 10000,
+        "fundamentalWeight": {
+            "expon": [
+                1.0
+            ]
+        },
+        "chartWeight": {
+            "expon": [
+                0.5
+            ]
+        },
+        "noiseWeight": {
+            "expon": [
+                0.1
+            ]
+        },
+        "meanReversionTime": {
+            "uniform": [
+                50,
+                100
+            ]
+        },
+        "noiseScale": 0.001,
+        "timeWindowSize": [
+            100,
+            200
+        ],
+        "orderMargin": [
+            0.0,
+            0.1
+        ]
+    },
+    "TestAgents": {
+        "class": "TestAgent",
+        "numAgents": 30,
+        "markets": [
+            "Market"
+        ],
+        "assetVolume": 30,
+        "cashAmount": 15000
+    },
+    "DeepAgents": {
+        "class": "DeepAgent",
+        "numAgents": 10,
+        "markets": [
+            "Market"
+        ],
+        "assetVolume": 0,
+        "cashAmount": 20000
+    },
+    "MarketMakerAgents": {
+        "class": "MarketMakerAgent",
+        "numAgents": 30,
+        "markets": [
+            "Market"
+        ],
+        "assetVolume": 100,
+        "cashAmount": 25000,
+        "targetMarket": "Market",
+        "netInterestSpread": 0.002,
+        "orderTimeLength": 10
+    }
+}

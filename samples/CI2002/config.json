@@ -1,16 +1,22 @@
 {
 	"simulation": {
-		"markets": ["Market"],
-		"agents": ["FCNAgents"],
+		"markets": [
+			"Market"
+		],
+		"agents": [
+			"FCNAgents"
+		],
 		"sessions": [
-			{	"sessionName": 0,
+			{
+				"sessionName": 0,
 				"iterationSteps": 100,
 				"withOrderPlacement": true,
 				"withOrderExecution": false,
 				"withPrint": true,
 				"highFrequencySubmitRate": 1.0
 			},
-			{	"sessionName": 1,
+			{
+				"sessionName": 1,
 				"iterationSteps": 500,
 				"withOrderPlacement": true,
 				"withOrderExecution": true,
@@ -18,7 +24,6 @@
 			}
 		]
 	},
-
 	"Market": {
 		"class": "Market",
 		"tickSize": 0.00001,
@@ -27,17 +32,40 @@
 	"FCNAgents": {
 		"class": "FCNAgent",
 		"numAgents": 100,
-
-		"markets": ["Market"],
+		"markets": [
+			"Market"
+		],
 		"assetVolume": 50,
 		"cashAmount": 10000,
-
-		"fundamentalWeight": {"expon": [1.0]},
-		"chartWeight": {"expon": [0.0]},
-		"noiseWeight": {"expon": [1.0]},
-		"meanReversionTime":{"uniform":[50,100]},
+		"fundamentalWeight": {
+			"expon": [
+				1.0
+			]
+		},
+		"chartWeight": {
+			"expon": [
+				0.0
+			]
+		},
+		"noiseWeight": {
+			"expon": [
+				1.0
+			]
+		},
+		"meanReversionTime": {
+			"uniform": [
+				50,
+				100
+			]
+		},
 		"noiseScale": 0.001,
-		"timeWindowSize": [100, 200],
-		"orderMargin": [0.0, 0.1]
+		"timeWindowSize": [
+			100,
+			200
+		],
+		"orderMargin": [
+			0.0,
+			0.1
+		]
 	}
 }
